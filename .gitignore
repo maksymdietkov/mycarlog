@@ -1,0 +1,37 @@
+# -----------------------------
+# Backend - Maven / Spring Boot
+# -----------------------------
+target/                  # Maven build folder
+*.log                    # логи
+*.iml                    # IntelliJ module files
+*.class                  # скомпилированные классы
+*.jar                    # если соберётся jar
+*.war
+
+# -----------------------------
+# IntelliJ IDEA
+# -----------------------------
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# -----------------------------
+# OS files
+# -----------------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------------
+# Frontend - React / Node
+# -----------------------------
+frontend/node_modules/
+frontend/build/
+frontend/.env.local
+frontend/.env.*.local
+
+# -----------------------------
+# Misc
+# -----------------------------
+*.swp        # временные файлы vim
+*.bak        # резервные копии
