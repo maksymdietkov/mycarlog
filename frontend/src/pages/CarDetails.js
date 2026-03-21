@@ -28,9 +28,23 @@ function CarDetails() {
   }, [carId]);
 
   if (!car) return <div className="container"><p>Loading car details...</p></div>;
-
   return (
     <div className="container">
+      <button
+  onClick={() => window.history.back()} // вернёт на предыдущую страницу
+  style={{
+    marginBottom: "20px",
+    padding: "8px 16px",
+    borderRadius: "8px",
+    border: "none",
+    backgroundColor: "#fbbf24",
+    color: "#0f172a",
+    cursor: "pointer",
+    fontWeight: "bold",
+  }}
+>
+  ← Back
+</button>
       <h1 style={{ color: "#fbbf24" }}>{car.name} 🚗</h1>
       <p style={{ color: "#fff" }}>
         {car.brand} {car.model} | License: {car.licensePlate}

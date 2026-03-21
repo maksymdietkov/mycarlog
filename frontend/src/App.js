@@ -10,6 +10,16 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/car/:carId" element={<CarDetails />} />
         <Route path="/add-car" element={<AddCar />} />
+
+        {/* Заглушка для неверного URL */}
+        <Route
+          path="*"
+          element={
+            <div style={{ color: "#fff", textAlign: "center", marginTop: "50px" }}>
+              <h2>404 — Page Not Found</h2>
+            </div>
+          }
+        />
       </Routes>
     </Router>
   );
