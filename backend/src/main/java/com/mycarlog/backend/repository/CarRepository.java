@@ -5,5 +5,5 @@ import com.mycarlog.backend.model.Car;
 import java.util.List;
 
 public interface CarRepository extends JpaRepository<Car, Long> {
-    List<Car> findByUserId(Long userId);
+    List<Car> findByUser_Id(Long userId);
 }
