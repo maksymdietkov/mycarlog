@@ -6,12 +6,16 @@ import "../styles/main.css";
 function Dashboard() {
   const [cars, setCars] = useState([]);
   const navigate = useNavigate();
+  const userId = 1; // пока статично
 
-  useEffect(() => {
-    // Получаем машины пользователя с id=1 (можно заменить на реальный userId)
-    getCars(1)
+  const fetchCars = () => {
+    getCars(userId)
       .then((data) => setCars(data))
       .catch((err) => console.error("Error fetching cars:", err));
+  };
+
+  useEffect(() => {
+    fetchCars();
   }, []);
 
   return (
@@ -26,6 +30,15 @@ function Dashboard() {
             key={car.id}
             className="car-card"
             onClick={() => navigate(`/car/${car.id}`)}
+            style={{
+              padding: "12px",
+              marginBottom: "12px",
+              borderRadius: "8px",
+              backgroundColor: "#1f2937", // современный графитовый
+              color: "#fff", // белый текст
+              cursor: "pointer",
+              boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+            }}
           >
             <h3>{car.name}</h3>
             <p>
@@ -36,7 +49,6 @@ function Dashboard() {
         ))
       )}
 
-      {/* Кнопка добавить авто */}
       <button
         className="add-car-btn"
         onClick={() => navigate("/add-car")}
