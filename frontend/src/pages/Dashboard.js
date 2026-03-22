@@ -3,10 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { getCars, deleteCar } from "../api/api";
 import "../styles/main.css";
 
-function Dashboard() {
+function Dashboard({ userId }) {
   const [cars, setCars] = useState([]);
   const navigate = useNavigate();
-  const userId = 1;
 
   const fetchCars = () => {
     getCars(userId)
@@ -16,11 +15,38 @@ function Dashboard() {
 
   useEffect(() => {
     fetchCars();
-  }, []);
+  }, [userId]);
+
+  const handleSignOut = () => {
+    localStorage.removeItem("userId");
+    window.location.href = "/";
+  };
 
   return (
     <div className="container">
-      <h1>My Cars 🚗</h1>
+      {/* Шапка */}
+      <div style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        marginBottom: "24px",
+      }}>
+        <h1 style={{ margin: 0 }}>My Cars 🚗</h1>
+        <button
+          onClick={handleSignOut}
+          style={{
+            padding: "8px 16px",
+            borderRadius: "8px",
+            border: "1px solid #374151",
+            backgroundColor: "transparent",
+            color: "#94a3b8",
+            cursor: "pointer",
+            fontSize: "14px",
+          }}
+        >
+          Sign out
+        </button>
+      </div>
 
       {cars.length === 0 ? (
         <p className="no-cars">No cars yet</p>

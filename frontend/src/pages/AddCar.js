@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addCar } from "../api/api"; // твой API-утилитарный файл
+import { addCar } from "../api/api";
 import "../styles/main.css";
 
-function AddCar() {
+function AddCar({ userId }) {
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -21,22 +21,19 @@ function AddCar() {
       return;
     }
 
-    // ✅ Правильный JSON для backend
     const carData = {
       name,
       brand,
       model,
       licensePlate,
       vin,
-      user: { id: 1 } // обязательно объект user с id
+      user: { id: userId },
     };
 
     try {
       const result = await addCar(carData);
-
       if (!result) throw new Error("Failed to add car");
 
-      // Очистка формы и переход на Dashboard
       setName("");
       setBrand("");
       setModel("");
@@ -52,6 +49,22 @@ function AddCar() {
 
   return (
     <div className="container" style={{ maxWidth: "400px", margin: "20px auto" }}>
+      <button
+        onClick={() => window.history.back()}
+        style={{
+          marginBottom: "20px",
+          padding: "8px 16px",
+          borderRadius: "8px",
+          border: "none",
+          backgroundColor: "#fbbf24",
+          color: "#0f172a",
+          cursor: "pointer",
+          fontWeight: "bold",
+        }}
+      >
+        ← Back
+      </button>
+
       <h1>Add New Car 🚗</h1>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
@@ -100,7 +113,7 @@ function AddCar() {
             padding: "10px 20px",
             borderRadius: "8px",
             border: "none",
-            backgroundColor: "#fbbf24", // твой жёлтый
+            backgroundColor: "#fbbf24",
             color: "#0f172a",
             cursor: "pointer",
             fontWeight: "bold",

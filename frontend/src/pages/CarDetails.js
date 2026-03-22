@@ -10,11 +10,13 @@ function CarDetails() {
   const [records, setRecords] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [editingRecord, setEditingRecord] = useState(null); // запись которую редактируем
+  const [editingRecord, setEditingRecord] = useState(null);
+
+  const userId = parseInt(localStorage.getItem("userId"));
 
   const fetchCarData = () => {
     setLoading(true);
-    Promise.all([getCars(1), getServiceRecords(carId)])
+    Promise.all([getCars(userId), getServiceRecords(carId)])
       .then(([cars, recs]) => {
         const foundCar = cars.find((c) => c.id === parseInt(carId));
         setCar(foundCar);
@@ -26,6 +28,7 @@ function CarDetails() {
 
   useEffect(() => {
     fetchCarData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [carId]);
 
   const handleDeleteRecord = async (recId) => {
@@ -93,7 +96,6 @@ function CarDetails() {
             }}
           >
             {editingRecord?.id === rec.id ? (
-              // Форма редактирования
               <EditRecordForm
                 record={editingRecord}
                 onSave={(data) => handleUpdateRecord(rec.id, data)}
@@ -175,7 +177,6 @@ function CarDetails() {
   );
 }
 
-// Встроенная форма редактирования записи
 function EditRecordForm({ record, onSave, onCancel }) {
   const [date, setDate] = useState(record.date);
   const [mileage, setMileage] = useState(record.mileage);
