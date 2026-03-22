@@ -8,43 +8,47 @@ function CarDetails() {
   const { carId } = useParams();
   const [car, setCar] = useState(null);
   const [records, setRecords] = useState([]);
-  const [showForm, setShowForm] = useState(false); // форма по умолчанию скрыта
+  const [showForm, setShowForm] = useState(false);
+  const [loading, setLoading] = useState(true);
+  console.log("render | showForm:", showForm, "| loading:", loading, "| car:", car?.id);
 
   const fetchCarData = () => {
-    getCars(1)
-      .then((cars) => {
+    setLoading(true);
+    Promise.all([getCars(1), getServiceRecords(carId)])
+      .then(([cars, recs]) => {
         const foundCar = cars.find((c) => c.id === parseInt(carId));
         setCar(foundCar);
+        setRecords(recs);
       })
-      .catch((err) => console.error("Error fetching car:", err));
-
-    getServiceRecords(carId)
-      .then(setRecords)
-      .catch((err) => console.error("Error fetching service records:", err));
+      .catch((err) => console.error("Error fetching car data:", err))
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {
     fetchCarData();
   }, [carId]);
 
-  if (!car) return <div className="container"><p>Loading car details...</p></div>;
+  if (loading) return <div className="container"><p>Loading car details...</p></div>;
+  if (!car) return <div className="container"><p>Car not found.</p></div>;
+
   return (
     <div className="container">
       <button
-  onClick={() => window.history.back()} // вернёт на предыдущую страницу
-  style={{
-    marginBottom: "20px",
-    padding: "8px 16px",
-    borderRadius: "8px",
-    border: "none",
-    backgroundColor: "#fbbf24",
-    color: "#0f172a",
-    cursor: "pointer",
-    fontWeight: "bold",
-  }}
->
-  ← Back
-</button>
+        onClick={() => window.history.back()}
+        style={{
+          marginBottom: "20px",
+          padding: "8px 16px",
+          borderRadius: "8px",
+          border: "none",
+          backgroundColor: "#fbbf24",
+          color: "#0f172a",
+          cursor: "pointer",
+          fontWeight: "bold",
+        }}
+      >
+        ← Back
+      </button>
+
       <h1 style={{ color: "#fbbf24" }}>{car.name} 🚗</h1>
       <p style={{ color: "#fff" }}>
         {car.brand} {car.model} | License: {car.licensePlate}
@@ -77,7 +81,6 @@ function CarDetails() {
         ))
       )}
 
-      {/* Кнопка для показа формы */}
       {!showForm && (
         <button
           className="add-car-btn"
@@ -98,13 +101,12 @@ function CarDetails() {
         </button>
       )}
 
-      {/* Форма появляется только после клика */}
       {showForm && (
         <AddServiceRecord
           carId={car.id}
           onRecordAdded={(newRec) => {
             setRecords([...records, newRec]);
-            setShowForm(false); // после добавления скрываем форму
+            setShowForm(false);
           }}
         />
       )}

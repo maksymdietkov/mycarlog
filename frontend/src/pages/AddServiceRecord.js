@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 function AddServiceRecord({ carId, onRecordAdded }) {
-  const [showForm, setShowForm] = useState(false); // форма скрыта по умолчанию
   const [date, setDate] = useState("");
   const [mileage, setMileage] = useState("");
   const [cost, setCost] = useState("");
@@ -25,14 +24,14 @@ function AddServiceRecord({ carId, onRecordAdded }) {
       cost: parseFloat(cost),
       description,
       serviceStation,
-      notes
+      notes,
     };
 
     try {
       const res = await fetch("http://localhost:8080/api/records", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) throw new Error("Failed to add record");
@@ -40,7 +39,6 @@ function AddServiceRecord({ carId, onRecordAdded }) {
       const newRecord = await res.json();
       onRecordAdded(newRecord);
 
-      // Очистка формы
       setDate("");
       setMileage("");
       setCost("");
@@ -48,34 +46,11 @@ function AddServiceRecord({ carId, onRecordAdded }) {
       setServiceStation("");
       setNotes("");
       setError("");
-      setShowForm(false); // скрываем форму после добавления
     } catch (err) {
       setError(err.message);
       console.error(err);
     }
   };
-
-  if (!showForm) {
-    return (
-      <button
-        className="add-car-btn"
-        style={{
-          marginTop: "20px",
-          padding: "12px 24px",
-          borderRadius: "8px",
-          border: "none",
-          backgroundColor: "#fbbf24",
-          color: "#0f172a",
-          cursor: "pointer",
-          fontWeight: "bold",
-          fontSize: "16px",
-        }}
-        onClick={() => setShowForm(true)}
-      >
-        + Add Record
-      </button>
-    );
-  }
 
   return (
     <div
@@ -134,8 +109,6 @@ function AddServiceRecord({ carId, onRecordAdded }) {
             color: "#fff",
           }}
         />
-
-        {/* Широкое многострочное поле Description */}
         <textarea
           placeholder="Description"
           value={description}
@@ -152,7 +125,6 @@ function AddServiceRecord({ carId, onRecordAdded }) {
             resize: "vertical",
           }}
         />
-
         <input
           type="text"
           placeholder="Service Station"
@@ -180,7 +152,6 @@ function AddServiceRecord({ carId, onRecordAdded }) {
             color: "#fff",
           }}
         />
-
         <button
           type="submit"
           style={{
