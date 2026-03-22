@@ -1,5 +1,6 @@
 package com.mycarlog.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class ServiceRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
@@ -26,7 +28,7 @@ public class ServiceRecord {
 
     private Double cost;
 
-    private String description; // parts/services
+    private String description;
 
     private String serviceStation;
 

@@ -1,7 +1,10 @@
 package com.mycarlog.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -14,7 +17,7 @@ public class Car {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name; // nickname (ВАЖНО для UX)
+    private String name;
 
     private String brand;
 
@@ -27,4 +30,8 @@ public class Car {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ServiceRecord> serviceRecords;
 }

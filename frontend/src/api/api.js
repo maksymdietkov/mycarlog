@@ -3,8 +3,6 @@ const BASE_URL = "http://localhost:8080/api";
 
 /**
  * Получаем список машин пользователя
- * @param {number} userId
- * @returns {Promise<Array>} массив машин
  */
 export async function getCars(userId) {
   try {
@@ -15,14 +13,12 @@ export async function getCars(userId) {
     return await res.json();
   } catch (err) {
     console.error("Error in getCars:", err);
-    return []; // возвращаем пустой массив при ошибке
+    return [];
   }
 }
 
 /**
  * Получаем список сервисных записей для конкретной машины
- * @param {number} carId
- * @returns {Promise<Array>} массив записей
  */
 export async function getServiceRecords(carId) {
   try {
@@ -33,14 +29,12 @@ export async function getServiceRecords(carId) {
     return await res.json();
   } catch (err) {
     console.error("Error in getServiceRecords:", err);
-    return []; // возвращаем пустой массив при ошибке
+    return [];
   }
 }
 
 /**
  * Добавляем новую машину
- * @param {object} carData
- * @returns {Promise<object>}
  */
 export async function addCar(carData) {
   try {
@@ -61,8 +55,6 @@ export async function addCar(carData) {
 
 /**
  * Добавляем новую сервисную запись
- * @param {object} recordData
- * @returns {Promise<object>}
  */
 export async function addServiceRecord(recordData) {
   try {
@@ -77,6 +69,62 @@ export async function addServiceRecord(recordData) {
     return await res.json();
   } catch (err) {
     console.error("Error in addServiceRecord:", err);
+    return null;
+  }
+}
+
+/**
+ * Удаляем машину
+ */
+export async function deleteCar(id) {
+  try {
+    const res = await fetch(`${BASE_URL}/cars/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      throw new Error(`Failed to delete car: ${res.status}`);
+    }
+    return true;
+  } catch (err) {
+    console.error("Error in deleteCar:", err);
+    return false;
+  }
+}
+
+/**
+ * Удаляем сервисную запись
+ */
+export async function deleteRecord(id) {
+  try {
+    const res = await fetch(`${BASE_URL}/records/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      throw new Error(`Failed to delete record: ${res.status}`);
+    }
+    return true;
+  } catch (err) {
+    console.error("Error in deleteRecord:", err);
+    return false;
+  }
+}
+
+/**
+ * Обновляем машину (на будущее — для Edit)
+ */
+export async function updateCar(id, carData) {
+  try {
+    const res = await fetch(`${BASE_URL}/cars/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(carData),
+    });
+    if (!res.ok) {
+      throw new Error(`Failed to update car: ${res.status}`);
+    }
+    return await res.json();
+  } catch (err) {
+    console.error("Error in updateCar:", err);
     return null;
   }
 }
