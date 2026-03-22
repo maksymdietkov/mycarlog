@@ -68,7 +68,7 @@ function Dashboard({ userId }) {
           >
             <h3 style={{ color: "#fbbf24" }}>{car.name}</h3>
             <p>{car.brand} {car.model}</p>
-            <p>License: {car.licensePlate}</p>
+            <p>License Plate: {car.licensePlate}</p>
 
             <div style={{ display: "flex", gap: "8px", marginTop: "10px" }}>
               <button
