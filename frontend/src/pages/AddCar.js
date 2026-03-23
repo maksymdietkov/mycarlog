@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addCar } from "../api/api";
-import "../styles/main.css";
 
 function AddCar({ userId }) {
   const navigate = useNavigate();
@@ -48,7 +47,16 @@ function AddCar({ userId }) {
   };
 
   return (
-    <div className="container" style={{ maxWidth: "400px", margin: "20px auto" }}>
+    <div
+      style={{
+        maxWidth: "500px",
+        margin: "20px auto",
+        padding: "20px",
+        borderRadius: "8px",
+        backgroundColor: "#111827",
+        color: "#fff",
+      }}
+    >
       <button
         onClick={() => window.history.back()}
         style={{
@@ -65,8 +73,7 @@ function AddCar({ userId }) {
         ← Back
       </button>
 
-      <h1>Add New Car 🚗</h1>
-
+      <h1 style={{ color: "#fbbf24" }}>Add New Car 🚗</h1>
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
@@ -76,6 +83,14 @@ function AddCar({ userId }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
+          style={{
+            width: "100%",
+            padding: "8px",
+            borderRadius: "6px",
+            border: "1px solid #374151",
+            backgroundColor: "#111827",
+            color: "#fff",
+          }}
         />
         <input
           type="text"
@@ -83,6 +98,14 @@ function AddCar({ userId }) {
           value={brand}
           onChange={(e) => setBrand(e.target.value)}
           required
+          style={{
+            width: "100%",
+            padding: "8px",
+            borderRadius: "6px",
+            border: "1px solid #374151",
+            backgroundColor: "#111827",
+            color: "#fff",
+          }}
         />
         <input
           type="text"
@@ -90,6 +113,14 @@ function AddCar({ userId }) {
           value={model}
           onChange={(e) => setModel(e.target.value)}
           required
+          style={{
+            width: "100%",
+            padding: "8px",
+            borderRadius: "6px",
+            border: "1px solid #374151",
+            backgroundColor: "#111827",
+            color: "#fff",
+          }}
         />
         <input
           type="text"
@@ -97,6 +128,14 @@ function AddCar({ userId }) {
           value={licensePlate}
           onChange={(e) => setLicensePlate(e.target.value)}
           required
+          style={{
+            width: "100%",
+            padding: "8px",
+            borderRadius: "6px",
+            border: "1px solid #374151",
+            backgroundColor: "#111827",
+            color: "#fff",
+          }}
         />
         <input
           type="text"
@@ -104,6 +143,14 @@ function AddCar({ userId }) {
           value={vin}
           onChange={(e) => setVin(e.target.value)}
           required
+          style={{
+            width: "100%",
+            padding: "8px",
+            borderRadius: "6px",
+            border: "1px solid #374151",
+            backgroundColor: "#111827",
+            color: "#fff",
+          }}
         />
 
         <button
