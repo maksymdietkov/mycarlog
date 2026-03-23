@@ -18,7 +18,9 @@ public class User {
 
     private String name;
 
-    private String provider;   // google
+    private String provider;   // google или local
 
     private String providerId; // id от Google
+
+    private String password;   // для локальной авторизации (хешированный)
 }
