@@ -23,14 +23,15 @@ public class ServiceRecord {
     private Car car;
 
     private LocalDate date;
-
     private Integer mileage;
-
     private Double cost;
-
     private String description;
-
     private String serviceStation;
-
     private String notes;
+
+    @Column(nullable = false)
+    private String currency = "USD";
+
+    @Column(nullable = false)
+    private String mileageUnit = "km";
 }

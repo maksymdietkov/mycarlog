@@ -59,16 +59,7 @@ function CarDetails() {
     <div className="container">
       <button
         onClick={() => window.history.back()}
-        style={{
-          marginBottom: "20px",
-          padding: "8px 16px",
-          borderRadius: "8px",
-          border: "none",
-          backgroundColor: "#fbbf24",
-          color: "#0f172a",
-          cursor: "pointer",
-          fontWeight: "bold",
-        }}
+        style={{ marginBottom: "20px", padding: "8px 16px", borderRadius: "8px", border: "none", backgroundColor: "#fbbf24", color: "#0f172a", cursor: "pointer", fontWeight: "bold" }}
       >
         ← Back
       </button>
@@ -84,17 +75,7 @@ function CarDetails() {
         <p className="no-cars">No service records yet</p>
       ) : (
         records.map((rec) => (
-          <div
-            key={rec.id}
-            className="car-card"
-            style={{
-              backgroundColor: "#1f2937",
-              color: "#fff",
-              padding: "10px",
-              marginBottom: "10px",
-              borderRadius: "6px",
-            }}
-          >
+          <div key={rec.id} className="car-card" style={{ backgroundColor: "#1f2937", color: "#fff", padding: "10px", marginBottom: "10px", borderRadius: "6px" }}>
             {editingRecord?.id === rec.id ? (
               <EditRecordForm
                 record={editingRecord}
@@ -104,37 +85,17 @@ function CarDetails() {
             ) : (
               <>
                 <p><strong>Date:</strong> {rec.date}</p>
-                <p><strong>Mileage:</strong> {rec.mileage} km</p>
-                <p><strong>Cost:</strong> ${rec.cost}</p>
+                <p><strong>Mileage:</strong> {rec.mileage} {rec.mileageUnit || "km"}</p>
+                <p><strong>Cost:</strong> {rec.cost} {rec.currency || "USD"}</p>
                 <p><strong>Service:</strong> {rec.description}</p>
                 <p><strong>Station:</strong> {rec.serviceStation}</p>
                 {rec.notes && <p><strong>Notes:</strong> {rec.notes}</p>}
 
                 <div style={{ display: "flex", gap: "8px", marginTop: "10px" }}>
-                  <button
-                    onClick={() => setEditingRecord(rec)}
-                    style={{
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      border: "none",
-                      backgroundColor: "#3b82f6",
-                      color: "#fff",
-                      cursor: "pointer",
-                    }}
-                  >
+                  <button onClick={() => setEditingRecord(rec)} style={{ padding: "6px 12px", borderRadius: "6px", border: "none", backgroundColor: "#3b82f6", color: "#fff", cursor: "pointer" }}>
                     Edit
                   </button>
-                  <button
-                    onClick={() => handleDeleteRecord(rec.id)}
-                    style={{
-                      padding: "6px 12px",
-                      borderRadius: "6px",
-                      border: "none",
-                      backgroundColor: "#ef4444",
-                      color: "#fff",
-                      cursor: "pointer",
-                    }}
-                  >
+                  <button onClick={() => handleDeleteRecord(rec.id)} style={{ padding: "6px 12px", borderRadius: "6px", border: "none", backgroundColor: "#ef4444", color: "#fff", cursor: "pointer" }}>
                     Delete
                   </button>
                 </div>
@@ -147,17 +108,7 @@ function CarDetails() {
       {!showForm && (
         <button
           className="add-car-btn"
-          style={{
-            marginTop: "20px",
-            padding: "12px 24px",
-            borderRadius: "8px",
-            border: "none",
-            backgroundColor: "#fbbf24",
-            color: "#0f172a",
-            cursor: "pointer",
-            fontWeight: "bold",
-            fontSize: "16px",
-          }}
+          style={{ marginTop: "20px", padding: "12px 24px", borderRadius: "8px", border: "none", backgroundColor: "#fbbf24", color: "#0f172a", cursor: "pointer", fontWeight: "bold", fontSize: "16px" }}
           onClick={() => setShowForm(true)}
         >
           + Add Record
@@ -180,14 +131,18 @@ function CarDetails() {
 function EditRecordForm({ record, onSave, onCancel }) {
   const [date, setDate] = useState(record.date);
   const [mileage, setMileage] = useState(record.mileage);
+  const [mileageUnit, setMileageUnit] = useState(record.mileageUnit || "km");
   const [cost, setCost] = useState(record.cost);
+  const [currency, setCurrency] = useState(record.currency || "USD");
   const [description, setDescription] = useState(record.description);
   const [serviceStation, setServiceStation] = useState(record.serviceStation);
   const [notes, setNotes] = useState(record.notes || "");
 
+  const currencies = ["USD", "EUR", "GBP", "CZK", "RUB", "PLN", "UAH"];
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave({ date, mileage: parseInt(mileage), cost: parseFloat(cost), description, serviceStation, notes });
+    onSave({ date, mileage: parseInt(mileage), mileageUnit, cost: parseFloat(cost), currency, description, serviceStation, notes });
   };
 
   const inputStyle = {
@@ -202,19 +157,33 @@ function EditRecordForm({ record, onSave, onCancel }) {
   return (
     <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
       <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required style={inputStyle} />
-      <input type="number" placeholder="Mileage" value={mileage} onChange={(e) => setMileage(e.target.value)} required style={inputStyle} />
-      <input type="number" step="0.01" placeholder="Cost" value={cost} onChange={(e) => setCost(e.target.value)} required style={inputStyle} />
+
+      {/* Mileage + unit */}
+      <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+        <input type="number" placeholder="Mileage" value={mileage} onChange={(e) => setMileage(e.target.value)} required style={{ ...inputStyle, width: "auto", flex: 1 }} />
+        <label style={{ display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }}>
+          <input type="radio" value="km" checked={mileageUnit === "km"} onChange={() => setMileageUnit("km")} /> km
+        </label>
+        <label style={{ display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }}>
+          <input type="radio" value="mi" checked={mileageUnit === "mi"} onChange={() => setMileageUnit("mi")} /> mi
+        </label>
+      </div>
+
+      {/* Cost + currency */}
+      <div style={{ display: "flex", gap: "8px" }}>
+        <input type="number" step="0.01" placeholder="Cost" value={cost} onChange={(e) => setCost(e.target.value)} required style={{ ...inputStyle, width: "auto", flex: 1 }} />
+        <select value={currency} onChange={(e) => setCurrency(e.target.value)} style={{ ...inputStyle, width: "90px" }}>
+          {currencies.map((c) => <option key={c} value={c}>{c}</option>)}
+        </select>
+      </div>
+
       <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} required style={{ ...inputStyle, minHeight: "60px", resize: "vertical" }} />
       <input type="text" placeholder="Service Station" value={serviceStation} onChange={(e) => setServiceStation(e.target.value)} required style={inputStyle} />
       <input type="text" placeholder="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} style={inputStyle} />
 
       <div style={{ display: "flex", gap: "8px", marginTop: "4px" }}>
-        <button type="submit" style={{ padding: "6px 12px", borderRadius: "6px", border: "none", backgroundColor: "#fbbf24", color: "#0f172a", cursor: "pointer", fontWeight: "bold" }}>
-          Save
-        </button>
-        <button type="button" onClick={onCancel} style={{ padding: "6px 12px", borderRadius: "6px", border: "none", backgroundColor: "#6b7280", color: "#fff", cursor: "pointer" }}>
-          Cancel
-        </button>
+        <button type="submit" style={{ padding: "6px 12px", borderRadius: "6px", border: "none", backgroundColor: "#fbbf24", color: "#0f172a", cursor: "pointer", fontWeight: "bold" }}>Save</button>
+        <button type="button" onClick={onCancel} style={{ padding: "6px 12px", borderRadius: "6px", border: "none", backgroundColor: "#6b7280", color: "#fff", cursor: "pointer" }}>Cancel</button>
       </div>
     </form>
   );

@@ -3,11 +3,15 @@ import { useState } from "react";
 function AddServiceRecord({ carId, onRecordAdded }) {
   const [date, setDate] = useState("");
   const [mileage, setMileage] = useState("");
+  const [mileageUnit, setMileageUnit] = useState("km");
   const [cost, setCost] = useState("");
+  const [currency, setCurrency] = useState("USD");
   const [description, setDescription] = useState("");
   const [serviceStation, setServiceStation] = useState("");
   const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
+
+  const currencies = ["USD", "EUR", "GBP", "CZK", "RUB", "PLN", "UAH"];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +25,9 @@ function AddServiceRecord({ carId, onRecordAdded }) {
       car: { id: carId },
       date,
       mileage: parseInt(mileage),
+      mileageUnit,
       cost: parseFloat(cost),
+      currency,
       description,
       serviceStation,
       notes,
@@ -41,7 +47,9 @@ function AddServiceRecord({ carId, onRecordAdded }) {
 
       setDate("");
       setMileage("");
+      setMileageUnit("km");
       setCost("");
+      setCurrency("USD");
       setDescription("");
       setServiceStation("");
       setNotes("");
@@ -52,119 +60,73 @@ function AddServiceRecord({ carId, onRecordAdded }) {
     }
   };
 
+  const inputStyle = {
+    padding: "8px",
+    borderRadius: "6px",
+    border: "1px solid #374151",
+    backgroundColor: "#111827",
+    color: "#fff",
+  };
+
   return (
-    <div
-      style={{
-        maxWidth: "500px",
-        margin: "20px auto",
-        padding: "20px",
-        borderRadius: "8px",
-        backgroundColor: "#111827",
-        color: "#fff",
-      }}
-    >
+    <div style={{ maxWidth: "500px", margin: "20px auto", padding: "20px", borderRadius: "8px", backgroundColor: "#111827", color: "#fff" }}>
       <h2 style={{ color: "#fbbf24" }}>Add Service Record 🛠️</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        <input
-          type="date"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-          required
-          style={{
-            padding: "8px",
-            borderRadius: "6px",
-            border: "1px solid #374151",
-            backgroundColor: "#111827",
-            color: "#fff",
-          }}
-        />
-        <input
-          type="number"
-          placeholder="Mileage"
-          value={mileage}
-          onChange={(e) => setMileage(e.target.value)}
-          required
-          style={{
-            padding: "8px",
-            borderRadius: "6px",
-            border: "1px solid #374151",
-            backgroundColor: "#111827",
-            color: "#fff",
-          }}
-        />
-        <input
-          type="number"
-          step="0.01"
-          placeholder="Cost"
-          value={cost}
-          onChange={(e) => setCost(e.target.value)}
-          required
-          style={{
-            padding: "8px",
-            borderRadius: "6px",
-            border: "1px solid #374151",
-            backgroundColor: "#111827",
-            color: "#fff",
-          }}
-        />
+        <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required style={inputStyle} />
+
+        {/* Mileage + unit */}
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <input
+            type="number"
+            placeholder="Mileage"
+            value={mileage}
+            onChange={(e) => setMileage(e.target.value)}
+            required
+            style={{ ...inputStyle, flex: 1 }}
+          />
+          <label style={{ display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }}>
+            <input type="radio" value="km" checked={mileageUnit === "km"} onChange={() => setMileageUnit("km")} /> km
+          </label>
+          <label style={{ display: "flex", alignItems: "center", gap: "4px", cursor: "pointer" }}>
+            <input type="radio" value="mi" checked={mileageUnit === "mi"} onChange={() => setMileageUnit("mi")} /> mi
+          </label>
+        </div>
+
+        {/* Cost + currency */}
+        <div style={{ display: "flex", gap: "8px" }}>
+          <input
+            type="number"
+            step="0.01"
+            placeholder="Cost"
+            value={cost}
+            onChange={(e) => setCost(e.target.value)}
+            required
+            style={{ ...inputStyle, flex: 1 }}
+          />
+          <select
+            value={currency}
+            onChange={(e) => setCurrency(e.target.value)}
+            style={{ ...inputStyle, width: "90px" }}
+          >
+            {currencies.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        </div>
+
         <textarea
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
-          style={{
-            width: "100%",
-            minHeight: "80px",
-            padding: "8px",
-            borderRadius: "6px",
-            border: "1px solid #374151",
-            backgroundColor: "#111827",
-            color: "#fff",
-            resize: "vertical",
-          }}
+          style={{ ...inputStyle, minHeight: "80px", resize: "vertical", width: "100%" }}
         />
-        <input
-          type="text"
-          placeholder="Service Station"
-          value={serviceStation}
-          onChange={(e) => setServiceStation(e.target.value)}
-          required
-          style={{
-            padding: "8px",
-            borderRadius: "6px",
-            border: "1px solid #374151",
-            backgroundColor: "#111827",
-            color: "#fff",
-          }}
-        />
-        <input
-          type="text"
-          placeholder="Notes"
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          style={{
-            padding: "8px",
-            borderRadius: "6px",
-            border: "1px solid #374151",
-            backgroundColor: "#111827",
-            color: "#fff",
-          }}
-        />
-        <button
-          type="submit"
-          style={{
-            marginTop: "10px",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            border: "none",
-            backgroundColor: "#fbbf24",
-            color: "#0f172a",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
+        <input type="text" placeholder="Service Station" value={serviceStation} onChange={(e) => setServiceStation(e.target.value)} required style={inputStyle} />
+        <input type="text" placeholder="Notes" value={notes} onChange={(e) => setNotes(e.target.value)} style={inputStyle} />
+
+        <button type="submit" style={{ marginTop: "10px", padding: "10px 20px", borderRadius: "8px", border: "none", backgroundColor: "#fbbf24", color: "#0f172a", cursor: "pointer", fontWeight: "bold" }}>
           Add Record
         </button>
       </form>

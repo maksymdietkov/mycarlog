@@ -24,24 +24,44 @@ public class ServiceRecordController {
 
     @PostMapping
     public ServiceRecord addRecord(@RequestBody ServiceRecord record) {
+        // Дефолты
+        if (record.getCurrency() == null || record.getCurrency().isEmpty()) {
+            record.setCurrency("USD");
+        }
+
+        if (record.getMileageUnit() == null || record.getMileageUnit().isEmpty()) {
+            record.setMileageUnit("km");
+        }
+
         return repo.save(record);
     }
 
-    // Обновить запись
     @PutMapping("/{id}")
     public ResponseEntity<ServiceRecord> updateRecord(@PathVariable Long id, @RequestBody ServiceRecord data) {
         return repo.findById(id).map(rec -> {
             rec.setDate(data.getDate());
             rec.setMileage(data.getMileage());
+
+            // ✅ фикс мили/км
+            rec.setMileageUnit(
+                    data.getMileageUnit() != null ? data.getMileageUnit() : "km"
+            );
+
             rec.setCost(data.getCost());
+
+            // ✅ фикс валюты
+            rec.setCurrency(
+                    data.getCurrency() != null ? data.getCurrency() : "USD"
+            );
+
             rec.setDescription(data.getDescription());
             rec.setServiceStation(data.getServiceStation());
             rec.setNotes(data.getNotes());
+
             return ResponseEntity.ok(repo.save(rec));
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    // Удалить запись
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRecord(@PathVariable Long id) {
         if (!repo.existsById(id)) {
