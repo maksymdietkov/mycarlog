@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { getCars, updateCar } from "../api/api";
 import "../styles/main.css";
 
 function EditCar() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { carId } = useParams();
 
@@ -15,8 +17,10 @@ function EditCar() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const userId = parseInt(localStorage.getItem("userId"));
+
   useEffect(() => {
-    getCars(1)
+    getCars(userId)
       .then((cars) => {
         const car = cars.find((c) => c.id === parseInt(carId));
         if (car) {
@@ -35,7 +39,7 @@ function EditCar() {
     e.preventDefault();
 
     if (!name || !brand || !model || !licensePlate || !vin) {
-      setError("Please fill in all required fields");
+      setError(t("fillFields"));
       return;
     }
 
@@ -45,7 +49,7 @@ function EditCar() {
       model,
       licensePlate,
       vin,
-      user: { id: 1 },
+      user: { id: userId },
     };
 
     try {
@@ -58,81 +62,30 @@ function EditCar() {
     }
   };
 
-  if (loading) return <div className="container"><p>Loading...</p></div>;
+  if (loading) return <div className="container"><p>{t("loading")}</p></div>;
 
   return (
     <div className="container" style={{ maxWidth: "400px", margin: "20px auto" }}>
       <button
         onClick={() => window.history.back()}
-        style={{
-          marginBottom: "20px",
-          padding: "8px 16px",
-          borderRadius: "8px",
-          border: "none",
-          backgroundColor: "#fbbf24",
-          color: "#0f172a",
-          cursor: "pointer",
-          fontWeight: "bold",
-        }}
+        style={{ marginBottom: "20px", padding: "8px 16px", borderRadius: "8px", border: "none", backgroundColor: "#fbbf24", color: "#0f172a", cursor: "pointer", fontWeight: "bold" }}
       >
-        ← Back
+        {t("back")}
       </button>
 
-      <h1>Edit Car 🚗</h1>
+      <h1>{t("editCar")}</h1>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-        <input
-          type="text"
-          placeholder="Car Name (nickname)"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Brand"
-          value={brand}
-          onChange={(e) => setBrand(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Model"
-          value={model}
-          onChange={(e) => setModel(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="License Plate"
-          value={licensePlate}
-          onChange={(e) => setLicensePlate(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="VIN"
-          value={vin}
-          onChange={(e) => setVin(e.target.value)}
-          required
-        />
+        <input type="text" placeholder={t("carName")} value={name} onChange={(e) => setName(e.target.value)} required />
+        <input type="text" placeholder={t("brand")} value={brand} onChange={(e) => setBrand(e.target.value)} required />
+        <input type="text" placeholder={t("model")} value={model} onChange={(e) => setModel(e.target.value)} required />
+        <input type="text" placeholder={t("licensePlate")} value={licensePlate} onChange={(e) => setLicensePlate(e.target.value)} required />
+        <input type="text" placeholder={t("vin")} value={vin} onChange={(e) => setVin(e.target.value)} required />
 
-        <button
-          type="submit"
-          style={{
-            marginTop: "10px",
-            padding: "10px 20px",
-            borderRadius: "8px",
-            border: "none",
-            backgroundColor: "#fbbf24",
-            color: "#0f172a",
-            cursor: "pointer",
-            fontWeight: "bold",
-          }}
-        >
-          Save Changes
+        <button type="submit" style={{ marginTop: "10px", padding: "10px 20px", borderRadius: "8px", border: "none", backgroundColor: "#fbbf24", color: "#0f172a", cursor: "pointer", fontWeight: "bold" }}>
+          {t("saveChanges")}
         </button>
       </form>
     </div>

@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function LoginPage({ onLogin }) {
+  const { t, i18n } = useTranslation();
   const [isRegister, setIsRegister] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,9 +19,7 @@ function LoginPage({ onLogin }) {
       ? "http://localhost:8080/api/auth/register"
       : "http://localhost:8080/api/auth/login";
 
-    const body = isRegister
-      ? { name, email, password }
-      : { email, password };
+    const body = isRegister ? { name, email, password } : { email, password };
 
     try {
       const res = await fetch(endpoint, {
@@ -31,7 +31,7 @@ function LoginPage({ onLogin }) {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Something went wrong");
+        setError(data.error || t("serverError"));
         return;
       }
 
@@ -39,10 +39,15 @@ function LoginPage({ onLogin }) {
       localStorage.setItem("token", data.token);
       onLogin(data.userId);
     } catch (err) {
-      setError("Server error, try again");
+      setError(t("serverError"));
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleLanguage = (lang) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem("language", lang);
   };
 
   const inputStyle = {
@@ -67,9 +72,31 @@ function LoginPage({ onLogin }) {
       color: "#fff",
       padding: "20px",
     }}>
+      {/* Переключатель языка */}
+      <div style={{ display: "flex", gap: "8px", marginBottom: "16px" }}>
+        {["en", "ru", "uk", "de", "pl", "cs"].map((lang) => (
+          <button
+            key={lang}
+            onClick={() => handleLanguage(lang)}
+            style={{
+              padding: "4px 10px",
+              borderRadius: "6px",
+              border: "1px solid #374151",
+              backgroundColor: i18n.language === lang ? "#fbbf24" : "transparent",
+              color: i18n.language === lang ? "#0f172a" : "#94a3b8",
+              cursor: "pointer",
+              fontSize: "13px",
+              fontWeight: i18n.language === lang ? "bold" : "normal",
+            }}
+          >
+            {lang.toUpperCase()}
+          </button>
+        ))}
+      </div>
+
       <h1 style={{ color: "#fbbf24", marginBottom: "8px", fontSize: "2rem" }}>🚗 MyCarLog</h1>
       <p style={{ color: "#94a3b8", marginBottom: "32px" }}>
-        {isRegister ? "Create your account" : "Welcome back"}
+        {isRegister ? t("createAccount") : t("welcomeBack")}
       </p>
 
       <div style={{
@@ -80,34 +107,12 @@ function LoginPage({ onLogin }) {
         maxWidth: "380px",
         boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
       }}>
-        {/* Форма */}
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
           {isRegister && (
-            <input
-              type="text"
-              placeholder="Your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              style={inputStyle}
-            />
+            <input type="text" placeholder={t("yourName")} value={name} onChange={(e) => setName(e.target.value)} required style={inputStyle} />
           )}
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={inputStyle}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={inputStyle}
-          />
+          <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required style={inputStyle} />
+          <input type="password" placeholder={t("password")} value={password} onChange={(e) => setPassword(e.target.value)} required style={inputStyle} />
 
           {error && <p style={{ color: "#ef4444", fontSize: "14px", margin: 0 }}>{error}</p>}
 
@@ -126,38 +131,21 @@ function LoginPage({ onLogin }) {
               opacity: loading ? 0.7 : 1,
             }}
           >
-            {loading ? "..." : isRegister ? "Create Account" : "Sign In"}
+            {loading ? "..." : isRegister ? t("createAccount") : t("signIn")}
           </button>
         </form>
 
-        {/* Разделитель */}
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "12px",
-          margin: "20px 0",
-        }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", margin: "20px 0" }}>
           <div style={{ flex: 1, height: "1px", backgroundColor: "#334155" }} />
-          <span style={{ color: "#64748b", fontSize: "13px" }}>or</span>
+          <span style={{ color: "#64748b", fontSize: "13px" }}>{t("or")}</span>
           <div style={{ flex: 1, height: "1px", backgroundColor: "#334155" }} />
         </div>
 
-        {/* Google кнопка */}
         <a href="http://localhost:8080/oauth2/authorization/google" style={{ textDecoration: "none" }}>
           <button style={{
-            width: "100%",
-            padding: "12px",
-            borderRadius: "8px",
-            border: "1px solid #374151",
-            backgroundColor: "transparent",
-            color: "#fff",
-            fontWeight: "bold",
-            fontSize: "15px",
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "10px",
+            width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid #374151",
+            backgroundColor: "transparent", color: "#fff", fontWeight: "bold", fontSize: "15px",
+            cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
           }}>
             <svg width="18" height="18" viewBox="0 0 18 18">
               <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/>
@@ -165,18 +153,17 @@ function LoginPage({ onLogin }) {
               <path fill="#FBBC05" d="M3.964 10.706c-.18-.54-.282-1.117-.282-1.706s.102-1.166.282-1.706V4.962H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.038l3.007-2.332z"/>
               <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.962L3.964 7.294C4.672 5.167 6.656 3.58 9 3.58z"/>
             </svg>
-            Continue with Google
+            {t("continueWithGoogle")}
           </button>
         </a>
 
-        {/* Переключение режима */}
         <p style={{ textAlign: "center", marginTop: "20px", color: "#64748b", fontSize: "14px" }}>
-          {isRegister ? "Already have an account? " : "Don't have an account? "}
+          {isRegister ? t("alreadyHaveAccount") : t("dontHaveAccount")}{" "}
           <span
             onClick={() => { setIsRegister(!isRegister); setError(""); }}
             style={{ color: "#fbbf24", cursor: "pointer", fontWeight: "bold" }}
           >
-            {isRegister ? "Sign In" : "Register"}
+            {isRegister ? t("signIn") : t("register")}
           </span>
         </p>
       </div>
