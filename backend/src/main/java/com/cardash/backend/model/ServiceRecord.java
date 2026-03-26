@@ -1,4 +1,4 @@
-package com.mycarlog.backend.model;
+package com.cardash.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

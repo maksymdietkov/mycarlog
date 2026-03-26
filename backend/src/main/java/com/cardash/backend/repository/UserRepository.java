@@ -1,7 +1,7 @@
-package com.mycarlog.backend.repository;
+package com.cardash.backend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.mycarlog.backend.model.User;
+import com.cardash.backend.model.User;
 
 import java.util.Optional;
 

@@ -1,7 +1,7 @@
-package com.mycarlog.backend.security;
+package com.cardash.backend.security;
 
-import com.mycarlog.backend.model.User;
-import com.mycarlog.backend.repository.UserRepository;
+import com.cardash.backend.model.User;
+import com.cardash.backend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;

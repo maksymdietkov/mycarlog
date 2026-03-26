@@ -1,7 +1,7 @@
-package com.mycarlog.backend.controller;
+package com.cardash.backend.controller;
 
-import com.mycarlog.backend.model.ServiceRecord;
-import com.mycarlog.backend.repository.ServiceRecordRepository;
+import com.cardash.backend.model.ServiceRecord;
+import com.cardash.backend.repository.ServiceRecordRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

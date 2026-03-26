@@ -1,4 +1,4 @@
-package com.mycarlog.backend.security;
+package com.cardash.backend.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -11,7 +11,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET = "mycarlog-super-secret-key-must-be-32-chars!!";
+    private static final String SECRET = "cardash-super-secret-key-must-be-32-chars!!";
     private static final long EXPIRATION = 1000 * 60 * 60 * 24 * 7; // 7 дней
 
     private final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());

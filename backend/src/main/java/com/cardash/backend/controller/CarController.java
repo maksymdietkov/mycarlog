@@ -1,12 +1,12 @@
-package com.mycarlog.backend.controller;
+package com.cardash.backend.controller;
 
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import com.mycarlog.backend.repository.CarRepository;
-import com.mycarlog.backend.repository.UserRepository;
-import com.mycarlog.backend.model.Car;
-import com.mycarlog.backend.model.User;
+import com.cardash.backend.repository.CarRepository;
+import com.cardash.backend.repository.UserRepository;
+import com.cardash.backend.model.Car;
+import com.cardash.backend.model.User;
 import java.util.List;
 
 @RestController

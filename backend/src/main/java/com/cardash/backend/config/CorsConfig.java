@@ -1,4 +1,4 @@
-package com.mycarlog.backend.config;
+package com.cardash.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

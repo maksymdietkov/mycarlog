@@ -1,7 +1,7 @@
-package com.mycarlog.backend.controller;
+package com.cardash.backend.controller;
 
-import com.mycarlog.backend.model.User;
-import com.mycarlog.backend.repository.UserRepository;
+import com.cardash.backend.model.User;
+import com.cardash.backend.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

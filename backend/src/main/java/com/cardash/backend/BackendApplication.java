@@ -1,4 +1,4 @@
-package com.mycarlog.backend;
+package com.cardash.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

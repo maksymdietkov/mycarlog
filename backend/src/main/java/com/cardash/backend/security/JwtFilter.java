@@ -1,4 +1,4 @@
-package com.mycarlog.backend.security;
+package com.cardash.backend.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

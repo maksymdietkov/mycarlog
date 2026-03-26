@@ -94,7 +94,7 @@ function LoginPage({ onLogin }) {
         ))}
       </div>
 
-      <h1 style={{ color: "#fbbf24", marginBottom: "8px", fontSize: "2rem" }}>🚗 MyCarLog</h1>
+      <h1 style={{ color: "#fbbf24", marginBottom: "8px", fontSize: "2rem" }}>🚗 CarDash</h1>
       <p style={{ color: "#94a3b8", marginBottom: "32px" }}>
         {isRegister ? t("createAccount") : t("welcomeBack")}
       </p>

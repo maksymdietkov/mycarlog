@@ -1,8 +1,8 @@
-package com.mycarlog.backend.controller;
+package com.cardash.backend.controller;
 
-import com.mycarlog.backend.model.User;
-import com.mycarlog.backend.repository.UserRepository;
-import com.mycarlog.backend.security.JwtUtil;
+import com.cardash.backend.model.User;
+import com.cardash.backend.repository.UserRepository;
+import com.cardash.backend.security.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
