@@ -6,7 +6,7 @@ function AdminPanel() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/admin/users")
+    fetch(`${process.env.REACT_APP_API_URL}/api/admin/users`)
       .then((res) => res.json())
       .then((data) => setUsers(data))
       .catch(() => setError("Failed to load users"))

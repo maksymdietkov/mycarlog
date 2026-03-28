@@ -4,6 +4,7 @@ import com.cardash.backend.model.User;
 import com.cardash.backend.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -17,6 +18,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     private final UserRepository userRepository;
 
+    @Value("${app.frontend-url}")
+    private String frontendUrl;
+
     public OAuth2LoginSuccessHandler(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -29,9 +33,8 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
-        String providerId = oAuth2User.getAttribute("sub"); // Google user ID
+        String providerId = oAuth2User.getAttribute("sub");
 
-        // Находим или создаём пользователя в БД
         Optional<User> existing = userRepository.findByEmail(email);
         User user;
         if (existing.isPresent()) {
@@ -45,7 +48,6 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             userRepository.save(user);
         }
 
-        // Редиректим на фронт с userId
-        response.sendRedirect("http://localhost:3000?userId=" + user.getId());
+        response.sendRedirect(frontendUrl + "?userId=" + user.getId());
     }
 }

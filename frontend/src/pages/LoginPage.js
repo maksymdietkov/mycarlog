@@ -16,8 +16,8 @@ function LoginPage({ onLogin }) {
     setLoading(true);
 
     const endpoint = isRegister
-      ? "http://localhost:8080/api/auth/register"
-      : "http://localhost:8080/api/auth/login";
+  ? `${process.env.REACT_APP_API_URL}/api/auth/register`
+  : `${process.env.REACT_APP_API_URL}/api/auth/login`;
 
     const body = isRegister ? { name, email, password } : { email, password };
 
@@ -141,7 +141,7 @@ function LoginPage({ onLogin }) {
           <div style={{ flex: 1, height: "1px", backgroundColor: "#334155" }} />
         </div>
 
-        <a href="http://localhost:8080/oauth2/authorization/google" style={{ textDecoration: "none" }}>
+        <a href={`${process.env.REACT_APP_API_URL}/oauth2/authorization/google`} style={{ textDecoration: "none" }}>
           <button style={{
             width: "100%", padding: "12px", borderRadius: "8px", border: "1px solid #374151",
             backgroundColor: "transparent", color: "#fff", fontWeight: "bold", fontSize: "15px",
