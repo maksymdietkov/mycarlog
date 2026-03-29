@@ -32,35 +32,34 @@ function Dashboard({ userId }) {
   return (
     <div className="container">
       {/* Шапка */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px", flexWrap: "wrap", gap: "12px" }}>
-  <h1 style={{ margin: 0 }}>{t("myCars")}</h1>
-  <div style={{ display: "flex", gap: "8px", alignItems: "center", flexWrap: "wrap" }}>
-    {["en", "ru", "uk", "de", "pl", "cs"].map((lang) => (
-      <button
-        key={lang}
-        onClick={() => handleLanguage(lang)}
-        style={{
-          padding: "4px 10px",
-          borderRadius: "6px",
-          border: "1px solid #374151",
-          backgroundColor: i18n.language === lang ? "#fbbf24" : "transparent",
-          color: i18n.language === lang ? "#0f172a" : "#94a3b8",
-          cursor: "pointer",
-          fontSize: "13px",
-          fontWeight: i18n.language === lang ? "bold" : "normal",
-        }}
-      >
-        {lang.toUpperCase()}
-      </button>
-    ))}
-    <button
-      onClick={handleSignOut}
-      style={{ padding: "8px 16px", borderRadius: "8px", border: "1px solid #374151", backgroundColor: "transparent", color: "#94a3b8", cursor: "pointer", fontSize: "14px" }}
-    >
-      {t("signOut")}
-    </button>
-  </div>
-</div>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+        <h1 style={{ margin: 0 }}>{t("myCars")}</h1>
+        <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+          <select
+            value={i18n.language}
+            onChange={(e) => handleLanguage(e.target.value)}
+            style={{
+              padding: "6px 10px",
+              borderRadius: "6px",
+              border: "1px solid #374151",
+              backgroundColor: "#1e293b",
+              color: "#94a3b8",
+              cursor: "pointer",
+              fontSize: "13px",
+            }}
+          >
+            {["en", "ru", "uk", "de", "pl", "cs"].map((lang) => (
+              <option key={lang} value={lang}>{lang.toUpperCase()}</option>
+            ))}
+          </select>
+          <button
+            onClick={handleSignOut}
+            style={{ padding: "8px 16px", borderRadius: "8px", border: "1px solid #374151", backgroundColor: "transparent", color: "#94a3b8", cursor: "pointer", fontSize: "14px" }}
+          >
+            {t("signOut")}
+          </button>
+        </div>
+      </div>
 
       {cars.length === 0 ? (
         <p className="no-cars">{t("noCars")}</p>
