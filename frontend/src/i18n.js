@@ -48,6 +48,7 @@ i18n.use(initReactI18next).init({
         alreadyHaveAccount: "Already have an account?",
         dontHaveAccount: "Don't have an account?",
         serverError: "Server error, try again",
+        tagline: "Your car service notes. Always at hand.",
       },
     },
     ru: {
@@ -95,6 +96,7 @@ i18n.use(initReactI18next).init({
         alreadyHaveAccount: "Уже есть аккаунт?",
         dontHaveAccount: "Нет аккаунта?",
         serverError: "Ошибка сервера, попробуйте снова",
+        tagline: "Заметки об обслуживании вашего авто. Всегда под рукой.",
       },
     },
     cs: {
@@ -142,6 +144,7 @@ i18n.use(initReactI18next).init({
         alreadyHaveAccount: "Již máte účet?",
         dontHaveAccount: "Nemáte účet?",
         serverError: "Chyba servera, zkuste znovu",
+        tagline: "Poznámky o servisu vašeho auta. Vždy po ruce.",
       },
     },
     uk: {
@@ -189,6 +192,7 @@ i18n.use(initReactI18next).init({
         alreadyHaveAccount: "Вже є акаунт?",
         dontHaveAccount: "Немає акаунту?",
         serverError: "Помилка сервера, спробуйте знову",
+        tagline: "Нотатки про обслуговування вашого авто. Завжди під рукою.",
       },
     },
     de: {
@@ -236,6 +240,7 @@ i18n.use(initReactI18next).init({
         alreadyHaveAccount: "Bereits ein Konto?",
         dontHaveAccount: "Noch kein Konto?",
         serverError: "Serverfehler, bitte erneut versuchen",
+        tagline: "Servicenotizen für Ihr Auto. Immer griffbereit.",
       },
     },
     pl: {
@@ -283,6 +288,7 @@ i18n.use(initReactI18next).init({
         alreadyHaveAccount: "Masz już konto?",
         dontHaveAccount: "Nie masz konta?",
         serverError: "Błąd serwera, spróbuj ponownie",
+        tagline: "Notatki o serwisie twojego auta. Zawsze pod ręką.",
       },
     },
   },
