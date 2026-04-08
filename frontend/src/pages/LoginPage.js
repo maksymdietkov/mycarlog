@@ -89,7 +89,7 @@ function LoginPage({ onLogin }) {
               fontWeight: i18n.language === lang ? "bold" : "normal",
             }}
           >
-            {lang.toUpperCase()}
+            {lang === "cs" ? "CZ" : lang.toUpperCase()}
           </button>
         ))}
       </div>
