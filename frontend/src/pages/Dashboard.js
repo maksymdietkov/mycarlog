@@ -49,7 +49,7 @@ function Dashboard({ userId }) {
             }}
           >
             {["en", "ru", "uk", "de", "pl", "cs"].map((lang) => (
-              <option key={lang} value={lang}>{lang === "cs" ? "CZ" : lang.toUpperCase()}</option>
+              <option key={lang} value={lang}>{lang.toUpperCase()}</option>
             ))}
           </select>
           <button
